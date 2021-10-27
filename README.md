@@ -3,9 +3,9 @@
 Build a React Redux Application to consume Web API using Axios, display and modify data with Router & Bootstrap.
 
 React Redux Tutorial Application in that:
-- Each Tutorial has id, title, description, published status.
+- Each Book has id, title, description, Author, price and quantity.
 - We can create, retrieve, update, delete Books.
-- There is a Search bar for finding Tutorials by title/author.
+- There is a Search bar for finding Books by title/author.
 
 ### Set port
 .env
@@ -19,8 +19,7 @@ In the project directory, you can run:
 
 ```
 npm install
-# or
-yarn install
+
 ```
 
 or
@@ -29,8 +28,7 @@ or
 
 ```
 npm start
-# or
-yarn start
+
 ```
 
 Open [http://localhost:8081](http://localhost:8081) to view it in the browser.

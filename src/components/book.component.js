@@ -7,9 +7,9 @@ class Book extends Component {
   constructor(props) {
     super(props);
     this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.getBook = this.getBook.bind(this);
-    this.updateStatus = this.updateStatus.bind(this);
+    this.onChangePrice = this.onChangePrice.bind(this);
+    this.onChangeQuantity = this.onChangeQuantity.bind(this);
+    this.getBook = this.getBook.bind(this);    
     this.updateContent = this.updateContent.bind(this);
     this.removeBook = this.removeBook.bind(this);
 
@@ -17,7 +17,8 @@ class Book extends Component {
       currentBook: {
         id: null,
         title: "",
-        description: "",
+        price: 0,
+        quantity: 0,        
         published: false,
       },
       message: "",
@@ -41,13 +42,23 @@ class Book extends Component {
     });
   }
 
-  onChangeDescription(e) {
-    const description = e.target.value;
+  onChangePrice(e) {
+    const price = Number(e.target.value);
 
     this.setState((prevState) => ({
       currentBook: {
         ...prevState.currentBook,
-        description: description,
+        price: price,
+      },
+    }));
+  }
+  onChangeQuantity(e) {
+    const quantity = Number(e.target.value);
+
+    this.setState((prevState) => ({
+      currentBook: {
+        ...prevState.currentBook,
+        quantity: quantity,
       },
     }));
   }
@@ -64,34 +75,7 @@ class Book extends Component {
         console.log(e);
       });
   }
-
-  updateStatus(status) {
-    var data = {
-      id: this.state.currentBook.id,
-      title: this.state.currentBook.title,
-      description: this.state.currentBook.description,
-      published: status,
-    };
-
-    this.props
-      .updateBook(this.state.currentBook.id, data)
-      .then((reponse) => {
-        console.log(reponse);
-
-        this.setState((prevState) => ({
-          currentBook: {
-            ...prevState.currentBook,
-            published: status,
-          },
-        }));
-
-        this.setState({ message: "The status was updated successfully!" });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
+  
   updateContent() {
     this.props
       .updateBook(this.state.currentBook.id, this.state.currentBook)
@@ -133,43 +117,30 @@ class Book extends Component {
                   id="title"
                   value={currentBook.title}
                   onChange={this.onChangeTitle}
+                  readOnly
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="description">Description</label>
+                <label htmlFor="price">Price</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
-                  id="description"
-                  value={currentBook.description}
-                  onChange={this.onChangeDescription}
+                  id="price"
+                  value={currentBook.price}
+                  onChange={this.onChangePrice}                  
                 />
               </div>
-
               <div className="form-group">
-                <label>
-                  <strong>Status:</strong>
-                </label>
-                {currentBook.published ? "Published" : "Pending"}
-              </div>
+                <label htmlFor="price">Quantity</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="quantity"
+                  value={currentBook.quantity}
+                  onChange={this.onChangeQuantity}                  
+                />
+              </div>             
             </form>
-
-            {currentBook.published ? (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updateStatus(false)}
-              >
-                UnPublish
-              </button>
-            ) : (
-              <button
-                className="badge badge-primary mr-2"
-                onClick={() => this.updateStatus(true)}
-              >
-                Publish
-              </button>
-            )}
-
             <button
               className="badge badge-danger mr-2"
               onClick={this.removeBook}

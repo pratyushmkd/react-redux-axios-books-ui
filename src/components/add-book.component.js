@@ -19,10 +19,10 @@ class AddBook extends Component {
       id: null,
       title: "",
       author: "",
-      image: "",
+      image: "https://picsum.photos/500/300/?image=10",
       description: "",
-      price: "",
-      quantity: "",
+      price: 0,
+      quantity: 0,
       published: false,
       selectedFiles: undefined,
       currentFile: undefined,
@@ -45,13 +45,13 @@ class AddBook extends Component {
 
   onChangeQuantity(e) {
     this.setState({
-      quantity: e.target.value,
+      quantity: Number(e.target.value),
     });
   }
 
   onChangePrice(e) {
     this.setState({
-      price: e.target.value,
+      price: Number(e.target.value),
     });
   }
 
@@ -63,16 +63,16 @@ class AddBook extends Component {
 
   onChangeSelectFile(e) {
     this.setState({
-      image: e.target.value,
+      image: "//https://picsum.photos/500/300/?image=10",
       selectedFiles: e.target.value
     });
   }
 
   saveBook() {
-    const { title, description,price, quantity, image } = this.state;
+    const {title, description,author, price, quantity, image } = this.state;
 
     this.props
-      .createBook(title, description, price, quantity, image)
+      .createBook(title, description, author, price, quantity, image)
       .then((data) => {
         this.setState({
           id: data.id,
@@ -114,8 +114,8 @@ class AddBook extends Component {
       author: "",
       image: "",
       description: "",
-      price: "",
-      quantity: "",
+      price: 0,
+      quantity: 0,
       submitted: false,
     });
   }
@@ -150,7 +150,7 @@ class AddBook extends Component {
             <div className="form-group">
               <label htmlFor="quantity">Quantity</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="quantity"
                 required
@@ -177,7 +177,7 @@ class AddBook extends Component {
             <div className="form-group">
               <label htmlFor="price">Price</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 id="price"
                 required

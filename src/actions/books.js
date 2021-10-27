@@ -8,9 +8,9 @@ import {
 
 import BooksDataService from "../services/books.service";
 
-export const createBook = (title, description) => async (dispatch) => {
+export const createBook = (title, description, author, price, quantity, image) => async (dispatch) => {
   try {
-    const res = await BooksDataService.create({ title, description });
+    const res = await BooksDataService.create({ title, description, author, price, quantity, image });
 
     dispatch({
       type: CREATE_BOOK,

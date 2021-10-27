@@ -128,8 +128,9 @@ class BooksList extends Component {
                   <div className={classes["card"]}>
                     <div className={classes["card_image"]}>
                       {
-                        // eslint-disable-next-line jsx-a11y/alt-text
-                        <img src="https://picsum.photos/500/300/?image=10" />
+                        // eslint-disable-next-line jsx-a11y/alt-text                        
+                        <img src={book.image} />
+                        //https://picsum.photos/500/300/?image=10
                       }
                     </div>
                     <div className={classes["card_content"]}>

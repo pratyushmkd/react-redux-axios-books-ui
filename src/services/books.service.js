@@ -21,10 +21,6 @@ class BooksDataService {
     return http.delete(`/${id}`);
   }
 
-  // deleteAll() {
-  //   return http.delete(`/tutorials`);
-  // }
-
   findByTitle(text) {
     return http.get(`/title?title=${text}`);
   }
@@ -36,12 +32,16 @@ class BooksDataService {
   upload(image, author) {
     let formData = new FormData();
     formData.append("file", image);
-    formData.append("userid", author)
-    return http.post("/upload",formData, {
+    formData.append("userid", author);
+    return http.post("/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-      }
+      },
     });
+  }
+
+  consumeAll(searchText) {
+    return http.get(`/search?searchText=${searchText}`);
   }
 }
 

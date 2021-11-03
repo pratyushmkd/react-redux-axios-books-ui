@@ -6,6 +6,7 @@ import "./App.css";
 import AddBook from "./components/add-book.component";
 import Book from "./components/book.component";
 import BooksList from "./components/books-list.component";
+import ConsumeBooksList from "./components/consume-books-list.component";
 
 class App extends Component {
   render() {
@@ -26,14 +27,20 @@ class App extends Component {
                 Add Book
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to={"/consumeapi"} className="nav-link">
+                Google Books
+              </Link>
+            </li>
           </div>
         </nav>
 
         <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/books"]} component={BooksList} />
-            <Route exact path="/add" component={AddBook} />
+            <Route exact path={["/add","/add/:data"]} component={AddBook} />
             <Route path="/books/:id" component={Book} />
+            <Route path="/consumeapi" component={ConsumeBooksList} />
           </Switch>
         </div>
       </Router>

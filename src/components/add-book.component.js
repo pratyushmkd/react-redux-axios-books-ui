@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createBook, upload } from "../actions/books";
+import { googleBook } from "../actions/google-books";
 
 class AddBook extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class AddBook extends Component {
     this.saveBook = this.saveBook.bind(this);
     this.newBook = this.newBook.bind(this);
     this.upload = this.upload.bind(this);
+    this.getBook = this.getBook.bind(this);
 
     this.state = {
       id: null,
@@ -29,6 +31,11 @@ class AddBook extends Component {
 
       submitted: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.history.location.state.data !== "undefind")
+      this.getBook(this.props.history.location.state.data);
   }
 
   onChangeTitle(e) {
@@ -63,13 +70,26 @@ class AddBook extends Component {
 
   onChangeSelectFile(e) {
     this.setState({
-      image: "//https://picsum.photos/500/300/?image=10",
-      selectedFiles: e.target.value
+      selectedFiles: e.target.value,
+    });
+  }
+
+  getBook(data) {
+    this.setState({
+      id: null,
+      title: data?.volumeInfo.title,
+      author: data?.volumeInfo.authors[0],
+      image: data?.volumeInfo.imageLinks.thumbnail,
+      description: data?.volumeInfo.description,
+      price: 0,
+      quantity: 0,
+
+      submitted: false,
     });
   }
 
   saveBook() {
-    const {title, description,author, price, quantity, image } = this.state;
+    const { title, description, author, price, quantity, image } = this.state;
 
     this.props
       .createBook(title, description, author, price, quantity, image)
@@ -96,8 +116,8 @@ class AddBook extends Component {
     this.props
       .upload(selectedFiles, author)
       .then((data) => {
-        this.setState({          
-          selectedFiles: undefined          
+        this.setState({
+          selectedFiles: undefined,
         });
         console.log(data);
       })
@@ -106,11 +126,10 @@ class AddBook extends Component {
       });
   }
 
-
   newBook() {
     this.setState({
       id: null,
-      title: "",      
+      title: "",
       author: "",
       image: "",
       description: "",
@@ -134,96 +153,97 @@ class AddBook extends Component {
         ) : (
           <div className="row">
             <div className="col-md-6">
-            <div className="form-group">            
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                required
-                value={this.state.title}
-                onChange={this.onChangeTitle}
-                name="title"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="title">Title</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  required
+                  value={this.state.title}
+                  onChange={this.onChangeTitle}
+                  name="title"
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="quantity">Quantity</label>
-              <input
-                type="number"
-                className="form-control"
-                id="quantity"
-                required
-                value={this.state.quantity}
-                onChange={this.onChangeQuantity}
-                name="quantity"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="quantity">Quantity</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="quantity"
+                  required
+                  value={this.state.quantity}
+                  onChange={this.onChangeQuantity}
+                  name="quantity"
+                />
+              </div>
             </div>
             <div className="col-md-6">
-            <div className="form-group">            
-              <label htmlFor="author">Author</label>
-              <input
-                type="text"
-                className="form-control"
-                id="author"
-                required
-                value={this.state.author}
-                onChange={this.onChangeAuthor}
-                name="author"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="author">Author</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="author"
+                  required
+                  value={this.state.author}
+                  onChange={this.onChangeAuthor}
+                  name="author"
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="price">Price</label>
-              <input
-                type="number"
-                className="form-control"
-                id="price"
-                required
-                value={this.state.price}
-                onChange={this.onChangePrice}
-                name="price"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="price">Price</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="price"
+                  required
+                  value={this.state.price}
+                  onChange={this.onChangePrice}
+                  name="price"
+                />
+              </div>
             </div>
             <div className="col-md-12">
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                required
-                value={this.state.description}
-                onChange={this.onChangeDescription}
-                name="description"
-              />
-            </div>
+              <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="description"
+                  required
+                  value={this.state.description}
+                  onChange={this.onChangeDescription}
+                  name="description"
+                />
+              </div>
             </div>
             <div className="col-md-8">
-            <label className="btn btn-default">
-          <input type="file" 
-          id="selectedFiles"
-          value={this.state.selectedFiles}
-          onChange={this.onChangeSelectFile} 
-          name="selectedFiles"
-          />
-        </label>
-        </div>
-        <div className="col-md-4">
-        <button
-          className="btn btn-success"
-          disabled={!selectedFiles}
-          onClick={this.upload}
-        >
-          Upload
-        </button>
-              </div>
+              <label className="btn btn-default">
+                <input
+                  type="file"
+                  id="selectedFiles"
+                  value={this.state.selectedFiles}
+                  onChange={this.onChangeSelectFile}
+                  name="selectedFiles"
+                />
+              </label>
+            </div>
+            <div className="col-md-4">
+              <button
+                className="btn btn-success"
+                disabled={!selectedFiles}
+                onClick={this.upload}
+              >
+                Upload
+              </button>
+            </div>
             <div className="col-md-6">
-            <button onClick={this.saveBook} className="btn btn-success">
-              Submit
-            </button>
+              <button onClick={this.saveBook} className="btn btn-success">
+                Submit
+              </button>
             </div>
           </div>
         )}

@@ -1,21 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  retrieveBooks,
-  findBooksByTitle,
-  findBooksByAuthor,
-} from "../actions/books";
-import { Link } from "react-router-dom";
+import { consumeBooks } from "../actions/google-books";
 import classes from "./books-list.module.css";
 
-class BooksList extends Component {
+class ConsumeBooksList extends Component {
   constructor(props) {
     super(props);
     this.onChangeSearchText = this.onChangeSearchText.bind(this);
     this.refreshData = this.refreshData.bind(this);
     this.setActiveBook = this.setActiveBook.bind(this);
-    this.findByTitle = this.findByTitle.bind(this);
-    this.findByAuthor = this.findByAuthor.bind(this);
+    this.search = this.search.bind(this);
+    this.clickMe = this.clickMe.bind(this);
 
     this.state = {
       currentBook: null,
@@ -25,7 +20,7 @@ class BooksList extends Component {
   }
 
   componentDidMount() {
-    this.props.retrieveBooks();
+    this.props.consumeBooks("demo");
   }
 
   onChangeSearchText(e) {
@@ -50,21 +45,19 @@ class BooksList extends Component {
     });
   }
 
-  findByTitle() {
-    this.refreshData();
-
-    this.props.findBooksByTitle(this.state.searchText);
+  clickMe(book) {
+    this.props.history.push("/add", { data: book });
   }
 
-  findByAuthor() {
+  search() {
     this.refreshData();
 
-    this.props.findBooksByAuthor(this.state.searchText);
+    this.props.consumeBooks(this.state.searchText);
   }
 
   render() {
     const { searchText, currentIndex } = this.state;
-    const { books } = this.props;
+    const { googleBooks } = this.props;
 
     return (
       <div className={classes["main row"]}>
@@ -85,16 +78,9 @@ class BooksList extends Component {
                 <button
                   className="btn btn-outline-secondary"
                   type="button"
-                  onClick={this.findByTitle}
+                  onClick={this.search}
                 >
-                  Title
-                </button>
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={this.findByAuthor}
-                >
-                  Author
+                  Search
                 </button>
               </div>
             </div>
@@ -102,8 +88,8 @@ class BooksList extends Component {
         </div>
         <div className="row">
           <ul className={classes["cards"]}>
-            {books &&
-              books.map((book, index) => (
+            {googleBooks &&
+              googleBooks.map((book, index) => (
                 <li
                   className={
                     classes["cards_item"] +
@@ -113,23 +99,28 @@ class BooksList extends Component {
                 >
                   <div className={classes["card"]}>
                     <div className={classes["card_image"]}>
-                      {<img src={book.image} alt={book.title} />}
+                      {
+                        <img
+                          src={book.volumeInfo.imageLinks.thumbnail}
+                          alt="imageLink"
+                        />
+                      }
                     </div>
                     <div className={classes["card_content"]}>
-                      <h2 className={classes["card_title"]}>{book.title}</h2>
-                      <p className={classes["card_price"]}>INR: {book.price}</p>
-                      <p className={classes["card_text"]}>
-                        {book.author} says: {book.description}
-                      </p>
-                      <h2 className={classes["card_text"]}>
-                        Quantity: {book.quantity}
+                      <h2 className={classes["card_title"]}>
+                        {book.volumeInfo.title}
                       </h2>
-                      <Link
-                        className={classes["btn card_btn"]}
-                        to={"/books/" + book.id}
+                      <p className={classes["card_text"]}>
+                        {book.volumeInfo.authors[0]} says:{" "}
+                        {`${book.volumeInfo.description?.substring(0, 40)}...`}
+                      </p>
+                      <button
+                        className="btn btn-outline-secondary"
+                        type="button"
+                        onClick={this.clickMe.bind(this, book)}
                       >
-                        Read More
-                      </Link>
+                        Save
+                      </button>
                     </div>
                   </div>
                 </li>
@@ -143,12 +134,10 @@ class BooksList extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    books: state.books,
+    googleBooks: state.googleBooks,
   };
 };
 
 export default connect(mapStateToProps, {
-  retrieveBooks,
-  findBooksByTitle,
-  findBooksByAuthor,
-})(BooksList);
+  consumeBooks,
+})(ConsumeBooksList);

@@ -1,27 +1,29 @@
-import {
-  CREATE_BOOK,
-  RETRIEVE_BOOKS,
-  UPDATE_BOOK,
-  DELETE_BOOK
-  // DELETE_ALL_BOOKS
-} from "./types";
+import { CREATE_BOOK, RETRIEVE_BOOKS, UPDATE_BOOK, DELETE_BOOK } from "./types";
 
 import BooksDataService from "../services/books.service";
 
-export const createBook = (title, description, author, price, quantity, image) => async (dispatch) => {
-  try {
-    const res = await BooksDataService.create({ title, description, author, price, quantity, image });
+export const createBook =
+  (title, description, author, price, quantity, image) => async (dispatch) => {
+    try {
+      const res = await BooksDataService.create({
+        title,
+        description,
+        author,
+        price,
+        quantity,
+        image,
+      });
 
-    dispatch({
-      type: CREATE_BOOK,
-      payload: res.data,
-    });
+      dispatch({
+        type: CREATE_BOOK,
+        payload: res.data,
+      });
 
-    return Promise.resolve(res.data);
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+      return Promise.resolve(res.data);
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  };
 
 export const retrieveBooks = () => async (dispatch) => {
   try {

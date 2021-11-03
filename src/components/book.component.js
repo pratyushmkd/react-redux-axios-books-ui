@@ -9,7 +9,7 @@ class Book extends Component {
     this.onChangeTitle = this.onChangeTitle.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
-    this.getBook = this.getBook.bind(this);    
+    this.getBook = this.getBook.bind(this);
     this.updateContent = this.updateContent.bind(this);
     this.removeBook = this.removeBook.bind(this);
 
@@ -18,7 +18,7 @@ class Book extends Component {
         id: null,
         title: "",
         price: 0,
-        quantity: 0,        
+        quantity: 0,
         published: false,
       },
       message: "",
@@ -75,13 +75,13 @@ class Book extends Component {
         console.log(e);
       });
   }
-  
+
   updateContent() {
     this.props
       .updateBook(this.state.currentBook.id, this.state.currentBook)
       .then((reponse) => {
         console.log(reponse);
-        
+
         this.setState({ message: "The Book was updated successfully!" });
       })
       .catch((e) => {
@@ -127,7 +127,7 @@ class Book extends Component {
                   className="form-control"
                   id="price"
                   value={currentBook.price}
-                  onChange={this.onChangePrice}                  
+                  onChange={this.onChangePrice}
                 />
               </div>
               <div className="form-group">
@@ -137,9 +137,9 @@ class Book extends Component {
                   className="form-control"
                   id="quantity"
                   value={currentBook.quantity}
-                  onChange={this.onChangeQuantity}                  
+                  onChange={this.onChangeQuantity}
                 />
-              </div>             
+              </div>
             </form>
             <button
               className="badge badge-danger mr-2"

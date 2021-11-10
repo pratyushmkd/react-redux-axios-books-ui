@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createBook, upload } from "../actions/books";
-import { googleBook } from "../actions/google-books";
 
 class AddBook extends Component {
   constructor(props) {
@@ -11,10 +10,10 @@ class AddBook extends Component {
     this.onChangeQuantity = this.onChangeQuantity.bind(this);
     this.onChangePrice = this.onChangePrice.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeSelectFile = this.onChangeSelectFile.bind(this);
+    //this.onChangeSelectFile = this.onChangeSelectFile.bind(this);
     this.saveBook = this.saveBook.bind(this);
     this.newBook = this.newBook.bind(this);
-    this.upload = this.upload.bind(this);
+    //this.upload = this.upload.bind(this);
     this.getBook = this.getBook.bind(this);
 
     this.state = {
@@ -34,7 +33,7 @@ class AddBook extends Component {
   }
 
   componentDidMount() {
-    if (this.props.history.location.state.data !== "undefind")
+    if (this.props.history.location.state?.data !== undefined)
       this.getBook(this.props.history.location.state.data);
   }
 
@@ -68,17 +67,17 @@ class AddBook extends Component {
     });
   }
 
-  onChangeSelectFile(e) {
-    this.setState({
-      selectedFiles: e.target.value,
-    });
-  }
+  // onChangeSelectFile(e) {
+  //   this.setState({
+  //     selectedFiles: e.target.value,
+  //   });
+  // }
 
   getBook(data) {
     this.setState({
       id: null,
       title: data?.volumeInfo.title,
-      author: data?.volumeInfo.authors[0],
+      author: data?.volumeInfo.authors? data.volumeInfo.authors[0] : "",
       image: data?.volumeInfo.imageLinks.thumbnail,
       description: data?.volumeInfo.description,
       price: 0,
@@ -110,21 +109,21 @@ class AddBook extends Component {
       });
   }
 
-  upload() {
-    const { selectedFiles, author } = this.state;
+  // upload() {
+  //   const { selectedFiles, author } = this.state;
 
-    this.props
-      .upload(selectedFiles, author)
-      .then((data) => {
-        this.setState({
-          selectedFiles: undefined,
-        });
-        console.log(data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+  //   this.props
+  //     .upload(selectedFiles, author)
+  //     .then((data) => {
+  //       this.setState({
+  //         selectedFiles: undefined,
+  //       });
+  //       console.log(data);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //     });
+  // }
 
   newBook() {
     this.setState({
@@ -140,7 +139,7 @@ class AddBook extends Component {
   }
 
   render() {
-    const { selectedFiles } = this.state;
+    //const { selectedFiles } = this.state;
     return (
       <div className="submit-form">
         {this.state.submitted ? (
@@ -220,7 +219,7 @@ class AddBook extends Component {
                 />
               </div>
             </div>
-            <div className="col-md-8">
+            {/* <div className="col-md-8">
               <label className="btn btn-default">
                 <input
                   type="file"
@@ -230,8 +229,8 @@ class AddBook extends Component {
                   name="selectedFiles"
                 />
               </label>
-            </div>
-            <div className="col-md-4">
+            </div> */}
+            {/* <div className="col-md-4">
               <button
                 className="btn btn-success"
                 disabled={!selectedFiles}
@@ -239,7 +238,7 @@ class AddBook extends Component {
               >
                 Upload
               </button>
-            </div>
+            </div> */}
             <div className="col-md-6">
               <button onClick={this.saveBook} className="btn btn-success">
                 Submit

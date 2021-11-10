@@ -119,7 +119,7 @@ class BooksList extends Component {
                       <h2 className={classes["card_title"]}>{book.title}</h2>
                       <p className={classes["card_price"]}>INR: {book.price}</p>
                       <p className={classes["card_text"]}>
-                        {book.author} says: {book.description}
+                        {book.author} says: {`${book.description?.substring(0, 40)}...`}
                       </p>
                       <h2 className={classes["card_text"]}>
                         Quantity: {book.quantity}

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createBook, upload } from "../actions/books";
+import { createBook } from "../actions/books";
 
 class AddBook extends Component {
   constructor(props) {
@@ -251,4 +251,4 @@ class AddBook extends Component {
   }
 }
 
-export default connect(null, { createBook, upload })(AddBook);
+export default connect(null, { createBook })(AddBook);

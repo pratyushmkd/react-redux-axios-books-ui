@@ -150,5 +150,5 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   retrieveBooks,
   findBooksByTitle,
-  findBooksByAuthor,
+  findBooksByAuthor
 })(BooksList);

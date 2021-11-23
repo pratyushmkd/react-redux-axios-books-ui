@@ -13,8 +13,8 @@ class App extends Component {
     return (
       <Router>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/books"} className="navbar-brand">
-            Axis Books
+          <Link to={"/#"} className="navbar-brand">
+            Library App
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -34,10 +34,13 @@ class App extends Component {
             </li>
           </div>
         </nav>
+        <div className="container mt-3">
+          <h1>Welcome to Library inventory</h1>
+        </div>
 
         <div className="container mt-3">
           <Switch>
-            <Route exact path={["/", "/books"]} component={BooksList} />
+            <Route exact path={["/books","/#"]} component={BooksList} />
             <Route exact path={["/add","/add/:data"]} component={AddBook} />
             <Route path="/books/:id" component={Book} />
             <Route path="/consumeapi" component={ConsumeBooksList} />

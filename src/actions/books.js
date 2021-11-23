@@ -107,15 +107,15 @@ export const findBooksByAuthor = (text) => async (dispatch) => {
   }
 };
 
-export const upload = (image, author) => async (dispatch) => {
-  try {
-    const res = await BooksDataService.upload(image, author);
+// export const upload = (image, author) => async (dispatch) => {
+//   try {
+//     const res = await BooksDataService.upload(image, author);
 
-    dispatch({
-      type: RETRIEVE_BOOKS,
-      payload: res.data,
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
+//     dispatch({
+//       type: RETRIEVE_BOOKS,
+//       payload: res.data,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
